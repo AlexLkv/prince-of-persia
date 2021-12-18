@@ -45,25 +45,35 @@ triangle_left = load_image('treyg_left.png')
 triangle_right = load_image('treyg_right.png')
 triangle_left = pygame.transform.scale(triangle_left, (25, 25))
 triangle_right = pygame.transform.scale(triangle_right, (25, 25))
-window_surface.blit(background, (0, 0))
 while running:
+    window_surface.blit(background, (0, 0))
     time_delta = clock.tick(60) / 1000.0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            conf_dealog = pygame_gui.windows.UIConfirmationDialog(
+                rect=pygame.Rect((250, 200), (300, 200)),
+                manager=manager,
+                window_title="Подтверждение выхода",
+                action_long_desc="Вы уверены, что хотите выйти?",
+                action_short_name='ОК',
+                blocking=True
+            )
+        if event.type == pygame.USEREVENT:
+            if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
+                running = False
         if event.type == pygame.USEREVENT:
             window_surface.blit(background, (0, 0))
-            if event.user_type == pygame_gui.UI_BUTTON_ON_HOVERED:
-                # ОБРАБОТКА НАВЕДЕНИЯ НА КНОПКУ И ОТРИСОВКА ТРЕУГОЛЬНИКА
-                if event.ui_element == game_bt:
-                    window_surface.blit(triangle_left, (5, 210))
-                    window_surface.blit(triangle_right, (280, 208))
-                elif event.ui_element == reg_bt:
-                    window_surface.blit(triangle_left, (5, 310))
-                    window_surface.blit(triangle_right, (280, 308))
-                elif event.ui_element == shop_bt:
-                    window_surface.blit(triangle_left, (5, 370))
-                    window_surface.blit(triangle_right, (280, 368))
+            # if event.user_type == pygame_gui.UI_BUTTON_ON_HOVERED:
+            #     # ОБРАБОТКА НАВЕДЕНИЯ НА КНОПКУ И ОТРИСОВКА ТРЕУГОЛЬНИКА
+            #     if event.ui_element == game_bt:
+            #         window_surface.blit(triangle_left, (5, 210))
+            #         window_surface.blit(triangle_right, (280, 208))
+            #     elif event.ui_element == reg_bt:
+            #         window_surface.blit(triangle_left, (5, 310))
+            #         window_surface.blit(triangle_right, (280, 308))
+            #     elif event.ui_element == shop_bt:
+            #         window_surface.blit(triangle_left, (5, 370))
+            #         window_surface.blit(triangle_right, (280, 368))
             if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == game_bt:
                     pass
