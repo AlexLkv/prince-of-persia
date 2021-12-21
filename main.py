@@ -1,6 +1,8 @@
 import os
 import sys
 import pygame
+from game import LVLs
+
 import pygame_gui
 
 pygame.init()
@@ -76,7 +78,8 @@ while running:
                 num_btn = ''
             if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == game_bt:
-                    pass
+                    f = LVLs()
+                    f.choose_lvl()
                 elif event.ui_element == reg_bt:
                     pass
                 elif event.ui_element == shop_bt:
