@@ -39,6 +39,7 @@ def load_image(name):
     return image
 
 
+num_btn = ''
 clock = pygame.time.Clock()
 running = True
 triangle_left = load_image('treyg_left.png')
@@ -63,17 +64,16 @@ while running:
                 running = False
         if event.type == pygame.USEREVENT:
             window_surface.blit(background, (0, 0))
-            # if event.user_type == pygame_gui.UI_BUTTON_ON_HOVERED:
-            #     # ОБРАБОТКА НАВЕДЕНИЯ НА КНОПКУ И ОТРИСОВКА ТРЕУГОЛЬНИКА
-            #     if event.ui_element == game_bt:
-            #         window_surface.blit(triangle_left, (5, 210))
-            #         window_surface.blit(triangle_right, (280, 208))
-            #     elif event.ui_element == reg_bt:
-            #         window_surface.blit(triangle_left, (5, 310))
-            #         window_surface.blit(triangle_right, (280, 308))
-            #     elif event.ui_element == shop_bt:
-            #         window_surface.blit(triangle_left, (5, 370))
-            #         window_surface.blit(triangle_right, (280, 368))
+            if event.user_type == pygame_gui.UI_BUTTON_ON_HOVERED:
+                # ОБРАБОТКА НАВЕДЕНИЯ НА КНОПКУ И ОТРИСОВКА ТРЕУГОЛЬНИКА
+                if event.ui_element == game_bt:
+                    num_btn = 'game_bt'
+                elif event.ui_element == reg_bt:
+                    num_btn = 'reg_bt'
+                elif event.ui_element == shop_bt:
+                    num_btn = 'shop_bt'
+            else:
+                num_btn = ''
             if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == game_bt:
                     pass
@@ -81,10 +81,18 @@ while running:
                     pass
                 elif event.ui_element == shop_bt:
                     pass
-
         manager.process_events(event)
     manager.update(time_delta)
     manager.draw_ui(window_surface)
+    if num_btn == 'game_bt':
+        window_surface.blit(triangle_left, (5, 210))
+        window_surface.blit(triangle_right, (280, 208))
+    elif num_btn == 'reg_bt':
+        window_surface.blit(triangle_left, (5, 310))
+        window_surface.blit(triangle_right, (280, 308))
+    elif num_btn == 'shop_bt':
+        window_surface.blit(triangle_left, (5, 370))
+        window_surface.blit(triangle_right, (280, 368))
     pygame.display.update()
 
 pygame.quit()
