@@ -1,6 +1,7 @@
 import os
 import sys
 import pygame
+from registration import registration
 from game import LVLs
 
 import pygame_gui
