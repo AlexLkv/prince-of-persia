@@ -1,7 +1,7 @@
 import os
 import sys
 import pygame
-from registration import registration
+import registration
 from game import LVLs
 
 import pygame_gui
@@ -82,7 +82,8 @@ while running:
                     f = LVLs()
                     f.choose_lvl()
                 elif event.ui_element == reg_bt:
-                    pass
+                    reg = registration.Registration()
+                    reg.choose_lvl()
                 elif event.ui_element == shop_bt:
                     pass
         manager.process_events(event)
