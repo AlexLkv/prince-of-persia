@@ -97,6 +97,7 @@ class Authorization:
                             Return_PSW()
                         elif event.ui_element == self.return_back:
                             running = False
+
                 self.manager.process_events(event)
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
@@ -235,7 +236,7 @@ class Return_PSW:
                 print('Оповещение', 'Пароли не совпадают')
         else:
             print('Оповещение', 'Не верные данные!')
-
+#
     def update_psw_func(self):
         running = True
         while running:

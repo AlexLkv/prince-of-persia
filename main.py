@@ -39,6 +39,7 @@ def load_image(name):
 
 
 num_btn = ''
+
 clock = pygame.time.Clock()
 running = True
 triangle_left = load_image('treyg_left.png')
