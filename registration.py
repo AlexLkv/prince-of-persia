@@ -97,6 +97,7 @@ class Authorization:
                             Return_PSW()
                         elif event.ui_element == self.return_back:
                             running = False
+
                 self.manager.process_events(event)
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
