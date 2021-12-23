@@ -1,10 +1,9 @@
 import os
 import sys
 import pygame
+import pygame_gui
 import registration
 from game import LVLs
-
-import pygame_gui
 
 pygame.init()
 
@@ -18,20 +17,17 @@ manager = pygame_gui.UIManager((800, 600))
 game_bt = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect((30, 200), (250, 50)),
     text='Играть',
-    manager=manager
-)
+    manager=manager)
 
 reg_bt = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect((30, 300), (250, 50)),
     text='Регистрация',
-    manager=manager
-)
+    manager=manager)
 
 shop_bt = pygame_gui.elements.UIButton(
     relative_rect=pygame.Rect((30, 360), (250, 50)),
     text='Магазин',
-    manager=manager
-)
+    manager=manager)
 
 
 def load_image(name):
@@ -54,19 +50,11 @@ while running:
     time_delta = clock.tick(60) / 1000.0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            conf_dealog = pygame_gui.windows.UIConfirmationDialog(
-                rect=pygame.Rect((250, 200), (300, 200)),
-                manager=manager,
-                window_title="Подтверждение выхода",
-                action_long_desc="Вы уверены, что хотите выйти?",
-                action_short_name='ОК',
-                blocking=True
-            )
+            registration.exit_game(manager)
         if event.type == pygame.USEREVENT:
             if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
                 running = False
-        if event.type == pygame.USEREVENT:
-            window_surface.blit(background, (0, 0))
+                exit(0)
             if event.user_type == pygame_gui.UI_BUTTON_ON_HOVERED:
                 # ОБРАБОТКА НАВЕДЕНИЯ НА КНОПКУ И ОТРИСОВКА ТРЕУГОЛЬНИКА
                 if event.ui_element == game_bt:
@@ -82,13 +70,13 @@ while running:
                     f = LVLs()
                     f.choose_lvl()
                 elif event.ui_element == reg_bt:
-                    reg = registration.Registration()
-                    reg.choose_lvl()
+                    registration.Authorization()
                 elif event.ui_element == shop_bt:
                     pass
         manager.process_events(event)
     manager.update(time_delta)
     manager.draw_ui(window_surface)
+    # Отрисовка треугольников (указателей на выбранную кнопку)
     if num_btn == 'game_bt':
         window_surface.blit(triangle_left, (5, 210))
         window_surface.blit(triangle_right, (280, 208))
