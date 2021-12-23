@@ -236,7 +236,7 @@ class Return_PSW:
                 print('Оповещение', 'Пароли не совпадают')
         else:
             print('Оповещение', 'Не верные данные!')
-#
+
     def update_psw_func(self):
         running = True
         while running:
