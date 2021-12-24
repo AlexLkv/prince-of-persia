@@ -2,7 +2,7 @@ import pygame
 import pygame_gui
 import sqlite3
 import hashlib
-
+import PyZenity
 
 def exit_game(manager):
     conf_dealog = pygame_gui.windows.UIConfirmationDialog(
@@ -14,15 +14,15 @@ def exit_game(manager):
         blocking=True)
 
 
-#
-# def signal_notification(value, manager):
-#     conf_dealog = pygame_gui.windows.UIConfirmationDialog(
-#         rect=pygame.Rect((250, 200), (300, 100)),
-#         manager=manager,
-#         window_title="Оповещение",
-#         action_long_desc=value,
-#         action_short_name='ОК',
-#         blocking=True)
+
+def signal_notification(value, manager):
+    conf_dealog = pygame_gui.windows.UIConfirmationDialog(
+        rect=pygame.Rect((250, 200), (200, 100)),
+        manager=manager,
+        window_title="Оповещение",
+        action_long_desc=value,
+        action_short_name='ОК',
+        blocking=False)
 
 
 class Authorization:
@@ -34,26 +34,26 @@ class Authorization:
         self.manager = pygame_gui.UIManager((800, 600))
 
         self.entrance = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((345, 300), (70, 30)),
+            relative_rect=pygame.Rect((30, 280), (340, 40)),
             text='Войти',
             manager=self.manager)
         self.return_back = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((100, 100), (150, 30)),
+            relative_rect=pygame.Rect((20, 450), (150, 50)),
             text='Вернуться назад',
             manager=self.manager)
         self.registration = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((20, 20), (110, 40)),
+            relative_rect=pygame.Rect((440, 250), (110, 40)),
             text='Регистрация',
             manager=self.manager)
         self.return_password = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((170, 20), (180, 40)),
+            relative_rect=pygame.Rect((440, 200), (180, 40)),
             text='Восстановить пароль',
             manager=self.manager)
         self.name = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 200), (300, 30)),
+            relative_rect=pygame.Rect((118, 171), (250, 30)),
             manager=self.manager)
         self.psw = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 250), (300, 30)),
+            relative_rect=pygame.Rect((118, 221), (250, 30)),
             manager=self.manager)
         self.clock = pygame.time.Clock()
         self.authorization_func()
@@ -109,42 +109,48 @@ class Register:
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
         self.window_surface = pygame.display.set_mode((800, 600))
-        self.background = pygame.image.load('images/reg1.jpg')
+        self.background = pygame.image.load('images/reg3.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
 
         self.reg_btn = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((230, 400), (300, 30)),
+            relative_rect=pygame.Rect((235, 350), (300, 40)),
             text='Завершить регистрацию',
             manager=self.manager)
         self.return_menu_btn = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((20, 20), (150, 40)),
+            relative_rect=pygame.Rect((20, 450), (150, 50)),
             text='Вернуться назад',
             manager=self.manager)
         self.name = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 200), (300, 30)),
+            relative_rect=pygame.Rect((235, 123), (300, 30)),
             manager=self.manager)
         self.key_word = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 250), (300, 30)),
+            relative_rect=pygame.Rect((235, 181), (300, 30)),
             manager=self.manager)
         self.psw1 = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 300), (300, 30)),
+            relative_rect=pygame.Rect((235, 236), (300, 30)),
             manager=self.manager)
         self.psw2 = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 350), (300, 30)),
+            relative_rect=pygame.Rect((235, 292), (300, 30)),
             manager=self.manager)
         self.clock = pygame.time.Clock()
         self.authorization_func()
 
     def reg(self):
         self.register(str(self.name.get_text()), str(self.psw1.get_text()),
-                      str(self.psw2.get_text()), str(self.psw2.get_text()))
+                      str(self.psw2.get_text()), str(self.key_word.get_text()))
 
     def register(self, name, passw1, passw2, key_word):
         con = sqlite3.connect('users.db')
         cur = con.cursor()
         # Проверяем используется ли такой логин
         value = cur.execute(f'SELECT * FROM users WHERE name="{name}";').fetchall()
-        if len(passw1) == 0:
+        if len(passw1) == 0 and len(name) == 0:
+            print('Некорректный ввод')
+        elif len(key_word) == 0:
+            signal_notification('Некорректное кодовое слово', self.manager)
+            print('Некорректное кодовое слово')
+        elif len(passw1) == 0:
+            signal_notification('Некорректный пароль', self.manager)
             print('Некорректный пароль')
         elif passw1 != passw2:
             print('Пароли не совпадают')
@@ -189,28 +195,28 @@ class Return_PSW:
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
         self.window_surface = pygame.display.set_mode((800, 600))
-        self.background = pygame.image.load('images/reg1.jpg')
+        self.background = pygame.image.load('images/reg2.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
 
         self.update_psw = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((230, 400), (300, 40)),
+            relative_rect=pygame.Rect((235, 350), (300, 40)),
             text='Завершить регистрацию',
             manager=self.manager)
         self.return_menu_btn = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((20, 20), (150, 40)),
+            relative_rect=pygame.Rect((20, 450), (150, 50)),
             text='Вернуться назад',
             manager=self.manager)
         self.name = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 200), (300, 30)),
+            relative_rect=pygame.Rect((235, 123), (300, 30)),
             manager=self.manager)
         self.key_word = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 250), (300, 30)),
+            relative_rect=pygame.Rect((235, 181), (300, 30)),
             manager=self.manager)
         self.psw1 = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 300), (300, 30)),
+            relative_rect=pygame.Rect((235, 236), (300, 30)),
             manager=self.manager)
         self.psw2 = pygame_gui.elements.UITextEntryLine(
-            relative_rect=pygame.Rect((230, 350), (300, 30)),
+            relative_rect=pygame.Rect((235, 292), (300, 30)),
             manager=self.manager)
         self.clock = pygame.time.Clock()
         self.update_psw_func()

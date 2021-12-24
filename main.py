@@ -29,7 +29,7 @@ class Main_menu:
 
         self.reg_bt = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((30, 300), (250, 50)),
-            text='Регистрация',
+            text='Авторизация',
             manager=self.manager)
 
         self.shop_bt = pygame_gui.elements.UIButton(

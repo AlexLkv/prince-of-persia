@@ -13,6 +13,11 @@ class LVLs():
 
         self.manager = pygame_gui.UIManager((800, 600))
 
+        self.return_back = pygame_gui.elements.UIButton(
+            relative_rect=pygame.Rect((20, 500), (150, 50)),
+            text='Вернуться назад',
+            manager=self.manager
+        )
         self.lvl1 = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((50, 80), (100, 100)),
             text='Уровень -1-',
@@ -29,6 +34,7 @@ class LVLs():
             manager=self.manager
         )
         self.clock = pygame.time.Clock()
+
     def choose_lvl(self):
         running = True
         while running:
@@ -47,7 +53,7 @@ class LVLs():
                 if event.type == pygame.USEREVENT:
                     if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
                         running = False
-                if event.type == pygame.USEREVENT:
+                        exit()
                     self.window_surface.blit(self.background, (0, 0))
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.lvl1:
@@ -56,9 +62,10 @@ class LVLs():
                             pass
                         elif event.ui_element == self.lvl3:
                             pass
+                        elif event.ui_element == self.return_back:
+                            running = False
                 self.manager.process_events(event)
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
             pygame.display.update()
 
-        pygame.quit()
