@@ -2,27 +2,16 @@ import pygame
 import pygame_gui
 import sqlite3
 import hashlib
-import PyZenity
-
-def exit_game(manager):
-    conf_dealog = pygame_gui.windows.UIConfirmationDialog(
-        rect=pygame.Rect((250, 200), (300, 200)),
-        manager=manager,
-        window_title="Подтверждение выхода",
-        action_long_desc="Вы уверены, что хотите выйти?",
-        action_short_name='ОК',
-        blocking=True)
-
+from main import exit_game, ID_PLAYER
+# import PyZenity
 
 
 def signal_notification(value, manager):
-    conf_dealog = pygame_gui.windows.UIConfirmationDialog(
-        rect=pygame.Rect((250, 200), (200, 100)),
+    conf_dealog = pygame_gui.windows.ui_message_window.UIMessageWindow(
+        rect=pygame.Rect((250, 200), (300, 200)),
+        html_message=value,
         manager=manager,
-        window_title="Оповещение",
-        action_long_desc=value,
-        action_short_name='ОК',
-        blocking=False)
+        window_title="Оповещение")
 
 
 class Authorization:
@@ -69,11 +58,12 @@ class Authorization:
         password_bytes = passw.encode('utf-8')
         hesh_psw = hashlib.sha1(password_bytes).hexdigest()
         if value != [] and value[0][2] == hesh_psw:
-            # Записывам в файл id игрока
-            f = open("id_users.txt", mode="w")
-            f.write(f'{value[0][0]}')
-            f.close()
-            print(123)
+            signal_notification('Здравствуйте,' + name + '!', self.manager)
+            ID_PLAYER = value[0][0]
+
+
+        else:
+            signal_notification('Неверные данные', self.manager)
         con.close()
 
     def authorization_func(self):
@@ -97,7 +87,6 @@ class Authorization:
                             Return_PSW()
                         elif event.ui_element == self.return_back:
                             running = False
-
                 self.manager.process_events(event)
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
@@ -145,26 +134,24 @@ class Register:
         # Проверяем используется ли такой логин
         value = cur.execute(f'SELECT * FROM users WHERE name="{name}";').fetchall()
         if len(passw1) == 0 and len(name) == 0:
-            print('Некорректный ввод')
+            signal_notification('Некорректный ввод', self.manager)
         elif len(key_word) == 0:
             signal_notification('Некорректное кодовое слово', self.manager)
-            print('Некорректное кодовое слово')
         elif len(passw1) == 0:
             signal_notification('Некорректный пароль', self.manager)
-            print('Некорректный пароль')
         elif passw1 != passw2:
-            print('Пароли не совпадают')
+            signal_notification('Пароли не совпадают', self.manager)
         elif len(name) == 0:
-            print('Некорректное имя пользователя')
+            signal_notification('Некорректное имя пользователя', self.manager)
         elif not value:
             password_bytes = passw1.encode('utf-8')
             hesh_psw = hashlib.sha1(password_bytes).hexdigest()
             cur.execute(f"INSERT INTO users (name, hesh_psw, key_word, lvl) VALUES ("
                         f"'{name}', '{hesh_psw}', '{key_word}', 1)")
             con.commit()
-            print('Всё прошло успешно!')
+            signal_notification('Всё прошло успешно!', self.manager)
         else:
-            print('Такой ник уже используется!')
+            signal_notification('Такой ник уже используется!', self.manager)
 
     def authorization_func(self):
         running = True
@@ -225,23 +212,23 @@ class Return_PSW:
         self.change_data(str(self.name.get_text()), str(self.psw1.get_text()),
                          str(self.psw2.get_text()), str(self.key_word))
 
-    def change_data(self, name, passw1, passw2, date):
+    def change_data(self, name, passw1, passw2, key_word):
         con = sqlite3.connect('users.db')
         cur = con.cursor()
         # Проверяем используется ли такой логин
         value = cur.execute(f'SELECT * FROM users WHERE name="{name}";').fetchall()
-        if value != [] and date == value[0][3]:
+        if value != [] and key_word != value[0][3]:
             if passw1 == passw2:
                 password_bytes = passw1.encode('utf-8')
                 hesh_psw = hashlib.sha1(password_bytes).hexdigest()
                 cur.execute(f"UPDATE users SET hesh_psw = '{hesh_psw}'"
                             f"WHERE name = '{name}'")
-                print('Оповещение', 'Вы успешно поменяли пароль')
+                signal_notification('Вы успешно поменяли пароль', self.manager)
                 con.commit()
             else:
-                print('Оповещение', 'Пароли не совпадают')
+                signal_notification('Пароли не совпадают', self.manager)
         else:
-            print('Оповещение', 'Не верные данные!')
+            signal_notification('Не верные данные!', self.manager)
 
     def update_psw_func(self):
         running = True

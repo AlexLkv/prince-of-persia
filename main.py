@@ -6,12 +6,25 @@ import registration
 from game import LVLs
 
 
+ID_PLAYER = -1
+
+
 def load_image(name):
     fullname = os.path.join('images', name)
     if not os.path.isfile(fullname):
         sys.exit()
     image = pygame.image.load(fullname)
     return image
+
+
+def exit_game(manager):
+    conf_dealog = pygame_gui.windows.UIConfirmationDialog(
+        rect=pygame.Rect((250, 200), (300, 200)),
+        manager=manager,
+        window_title="Подтверждение выхода",
+        action_long_desc="Вы уверены, что хотите выйти?",
+        action_short_name='ОК',
+        blocking=True)
 
 
 class Main_menu:
@@ -83,6 +96,7 @@ class Main_menu:
                             f.choose_lvl()
                         elif event.ui_element == self.reg_bt:
                             registration.Authorization()
+                            print(ID_PLAYER)
                         elif event.ui_element == self.shop_bt:
                             pass
                 self.manager.process_events(event)
