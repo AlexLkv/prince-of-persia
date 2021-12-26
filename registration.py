@@ -2,7 +2,7 @@ import pygame
 import pygame_gui
 import sqlite3
 import hashlib
-from main import exit_game, ID_PLAYER
+from main import exit_game
 # import PyZenity
 
 
@@ -50,6 +50,7 @@ class Authorization:
     def login(self):
         name = self.name.get_text()
         passw = self.psw.get_text()
+
         con = sqlite3.connect('users.db')
         cur = con.cursor()
         # Проверяем есть ли такой пользователь
@@ -58,10 +59,10 @@ class Authorization:
         password_bytes = passw.encode('utf-8')
         hesh_psw = hashlib.sha1(password_bytes).hexdigest()
         if value != [] and value[0][2] == hesh_psw:
-            signal_notification('Здравствуйте,' + name + '!', self.manager)
-            ID_PLAYER = value[0][0]
-
-
+            signal_notification('Здравствуйте, ' + name + '!', self.manager)
+            f = open("id_users.txt", mode="w")
+            f.write(f'{value[0][0]}')
+            f.close()
         else:
             signal_notification('Неверные данные', self.manager)
         con.close()

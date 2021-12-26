@@ -6,9 +6,6 @@ import registration
 from game import LVLs
 
 
-ID_PLAYER = -1
-
-
 def load_image(name):
     fullname = os.path.join('images', name)
     if not os.path.isfile(fullname):
@@ -56,6 +53,8 @@ class Main_menu:
         self.num_btn = ''
         self.clock = pygame.time.Clock()
         self.menu()
+        ## Данные игрока
+        self.ID_PLAYER = -1
 
     def what_btn(self):
         if self.num_btn == 'game_bt':
@@ -96,7 +95,6 @@ class Main_menu:
                             f.choose_lvl()
                         elif event.ui_element == self.reg_bt:
                             registration.Authorization()
-                            print(ID_PLAYER)
                         elif event.ui_element == self.shop_bt:
                             pass
                 self.manager.process_events(event)

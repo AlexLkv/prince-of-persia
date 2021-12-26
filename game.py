@@ -5,12 +5,9 @@ import pygame_gui
 class LVLs():
     def __init__(self):
         pygame.init()
-
         pygame.display.set_caption('Prince Of Voronezh')
         self.window_surface = pygame.display.set_mode((800, 600))
-
         self.background = pygame.image.load('images/background2.jpg')
-
         self.manager = pygame_gui.UIManager((800, 600))
 
         self.return_back = pygame_gui.elements.UIButton(
@@ -48,8 +45,8 @@ class LVLs():
                         window_title="Подтверждение выхода",
                         action_long_desc="Вы уверены, что хотите выйти?",
                         action_short_name='ОК',
-                        blocking=True
-                    )
+                        blocking=True)
+
                 if event.type == pygame.USEREVENT:
                     if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
                         running = False
