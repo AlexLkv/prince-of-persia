@@ -3,6 +3,7 @@ import sys
 import pygame
 import pygame_gui
 import registration
+import rules
 from game import LVLs
 
 
@@ -46,6 +47,10 @@ class Main_menu:
             relative_rect=pygame.Rect((30, 360), (250, 50)),
             text='Магазин',
             manager=self.manager)
+        self.rules_bt = pygame_gui.elements.UIButton(
+            relative_rect=pygame.Rect((30, 420), (250, 50)),
+            text='Правила',
+            manager=self.manager)
         self.triangle_left = load_image('treyg_left.png')
         self.triangle_right = load_image('treyg_right.png')
         self.triangle_left = pygame.transform.scale(self.triangle_left, (25, 25))
@@ -87,6 +92,9 @@ class Main_menu:
                             self.num_btn = 'reg_bt'
                         elif event.ui_element == self.shop_bt:
                             self.num_btn = 'shop_bt'
+                        elif event.ui_element == self.rules_bt:
+                            self.num_btn = 'rules_bt'
+
                     else:
                         self.num_btn = ''
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
@@ -97,6 +105,10 @@ class Main_menu:
                             registration.Authorization()
                         elif event.ui_element == self.shop_bt:
                             pass
+                        elif event.ui_element == self.rules_bt:
+                            t = rules.Rule()
+                            t.rul()
+
                 self.manager.process_events(event)
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
