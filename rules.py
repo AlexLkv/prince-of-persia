@@ -8,7 +8,7 @@ class Rule:
         pygame.display.set_caption('Prince Of Voronezh')
         self.window_surface = pygame.display.set_mode((800, 600))
         self.background = pygame.image.load('images/rules.jpg')
-        self.manager = pygame_gui.UIManager((800, 600))
+        self.manager = pygame_gui.UIManager((800, 640))
 
         self.return_back = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((20, 500), (150, 50)),
@@ -19,9 +19,9 @@ class Rule:
 
     def rul(self):
         running = True
+        time_delta = self.clock.tick(60) / 1000.0
         while running:
             self.window_surface.blit(self.background, (0, 0))
-            time_delta = self.clock.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     conf_dealog = pygame_gui.windows.UIConfirmationDialog(

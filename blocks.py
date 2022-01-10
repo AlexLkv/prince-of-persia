@@ -1,4 +1,5 @@
 from main_play import *
+import pygame
 
 PLATFORM_WIDTH = 32
 PLATFORM_HEIGHT = 32
@@ -13,7 +14,7 @@ class Platform(pygame.sprite.Sprite):
     platform = pygame.image.load("data\_blocks/platform.png")
 
     def __init__(self, x, y, name_platform=None):
-        super().__init__(all_sprites)
+        super().__init__()
         self.image = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
         if name_platform == '=':
             self.image = Platform.platform

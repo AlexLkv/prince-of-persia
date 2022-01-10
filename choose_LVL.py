@@ -1,14 +1,15 @@
 import pygame
 import pygame_gui
+from main_play import play
 
 
 class LVLs():
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 600))
+        self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/background2.jpg')
-        self.manager = pygame_gui.UIManager((800, 600))
+        self.manager = pygame_gui.UIManager((800, 640))
 
         self.return_back = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((20, 500), (150, 50)),
@@ -58,7 +59,7 @@ class LVLs():
                         elif event.ui_element == self.lvl2:
                             pass
                         elif event.ui_element == self.lvl3:
-                            pass
+                            play(10, 'data\levels/lvl_1.txt')
                         elif event.ui_element == self.return_back:
                             running = False
                 self.manager.process_events(event)

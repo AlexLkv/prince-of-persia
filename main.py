@@ -4,7 +4,8 @@ import pygame
 import pygame_gui
 import registration
 import rules
-from game import LVLs
+from choose_LVL import LVLs
+from conf_dealog import exit_game
 
 
 def load_image(name):
@@ -15,23 +16,13 @@ def load_image(name):
     return image
 
 
-def exit_game(manager):
-    conf_dealog = pygame_gui.windows.UIConfirmationDialog(
-        rect=pygame.Rect((250, 200), (300, 200)),
-        manager=manager,
-        window_title="Подтверждение выхода",
-        action_long_desc="Вы уверены, что хотите выйти?",
-        action_short_name='ОК',
-        blocking=True)
-
-
 class Main_menu:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 600))
+        self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/background.jpg')
-        self.manager = pygame_gui.UIManager((800, 600))
+        self.manager = pygame_gui.UIManager((800, 640))
 
         self.game_bt = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((30, 200), (250, 50)),

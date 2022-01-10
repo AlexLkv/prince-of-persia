@@ -2,6 +2,7 @@ from blocks import *
 from characters import *
 import player
 import pygame
+from victory_window import victory_final
 
 size = WIDTH, HEIGHT = 800, 640
 FPS = 60
@@ -100,10 +101,10 @@ def camera_configure(camera, target_rect):
     return pygame.Rect(l, t, w, h)
 
 
-def loadLevel():
+def loadLevel(card):
     global playerX, playerY  # объявляем глобальные переменные, это координаты героя
     lvl = []
-    levelFile = open('data\levels/lvl_1.txt')
+    levelFile = open(card)
     line = " "
     commands = []
     while line[0] != "/":
@@ -141,7 +142,6 @@ def loadLevel():
 
 
 def start_screen(var):
-    global keys_kolvo
     screen = pygame.display.set_mode((800, 640), 0, 32)
     if var == 'start':
         fon = pygame.transform.scale(pygame.image.load('data\display\_reg1.jpg'), (800, 640))
@@ -164,7 +164,7 @@ def start_screen(var):
                 platforms.clear()
                 opponents.clear()
                 keys.empty()
-                return play(180)
+                return
         pygame.display.flip()
 
 
@@ -200,7 +200,8 @@ def generate_level(level):
         x = 0
 
 
-def play(play_time):
+def play(play_time, card):
+    start_screen('start')
     clock = pygame.time.Clock()
     pygame.init()
     screen = pygame.display.set_mode(size)
@@ -217,7 +218,7 @@ def play(play_time):
     keys_kolvo = 0
     text_kolvo_keys = font.render(str(keys_kolvo), True, (237, 60, 202))
 
-    level = loadLevel()
+    level = loadLevel(card)
     generate_level(level)
 
     left = False
@@ -234,9 +235,9 @@ def play(play_time):
 
     camera = Camera(camera_configure, total_level_width, total_level_height)
     while not play.win:
+        clock.tick(FPS)
         if play_time == 0:
             break
-        clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit(0)
@@ -252,7 +253,6 @@ def play(play_time):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                 right = True
                 player.num_move = 0
-
             elif event.type == pygame.KEYUP and event.key == pygame.K_UP:
                 up = False
             elif event.type == pygame.KEYUP and event.key == pygame.K_RIGHT:
@@ -268,11 +268,11 @@ def play(play_time):
                     bullet = Bullet(x, y, 'left', True)
                 all_sprites.add(bullet)
                 bullets_player.add(bullet)
-
         if right:
             num_side_player = 'right'
         elif left:
             num_side_player = 'left'
+
         if play_time % 3 == 0:
             for opponent in opponents:
                 if opponent[0] not in oppon_sprites:
@@ -320,9 +320,7 @@ def play(play_time):
         screen.blit(pygame.transform.scale(Keys.img_key, (30, 30)), (50, 20))
         pygame.display.update()
 
-    start_screen('time')
-
-
-if __name__ == "__main__":
-    start_screen('start')
-    pygame.quit()
+    if not play.win:
+        start_screen('time')
+    else:
+        victory_final(screen, clock)

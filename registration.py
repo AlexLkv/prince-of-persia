@@ -2,8 +2,7 @@ import pygame
 import pygame_gui
 import sqlite3
 import hashlib
-from main import exit_game
-# import PyZenity
+from conf_dealog import exit_game
 
 
 def signal_notification(value, manager):
