@@ -33,9 +33,9 @@ class Character(pygame.sprite.Sprite):
 
         self.collide(platforms)
 
-        if (abs(self.startX - self.rect.x) > self.maxLengthLeft):
+        if abs(self.startX - self.rect.x) > self.maxLengthLeft:
             self.xvel = -self.xvel  # если прошли максимальное растояние, то идеи в обратную сторону
-        if (abs(self.startY - self.rect.y) > self.maxLengthUp):
+        if abs(self.startY - self.rect.y) > self.maxLengthUp:
             self.yvel = -self.yvel  # если прошли максимальное растояние, то идеи в обратную сторону, вертикаль
 
     def collide(self, platforms):

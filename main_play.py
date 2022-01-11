@@ -200,7 +200,7 @@ def generate_level(level):
         x = 0
 
 
-def play(play_time, card):
+def play(play_time, card, name_use_plarformer):
     start_screen('start')
     clock = pygame.time.Clock()
     pygame.init()
@@ -226,7 +226,7 @@ def play(play_time, card):
     up = False
     running = False
     num_side_player = 'right'
-    play = player.Player(playerX, playerY)  # создаем героя по (x,y) координатам
+    play = player.Player(playerX, playerY, name_use_plarformer)  # создаем героя по (x,y) координатам
     all_sprites.add(play)
     player_sprite.add(play)
 

@@ -16,7 +16,7 @@ class Authorization:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 600))
+        self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/reg1.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
 
@@ -93,7 +93,7 @@ class Register:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 600))
+        self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/reg3.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
 
@@ -143,7 +143,7 @@ class Register:
             password_bytes = passw1.encode('utf-8')
             hesh_psw = hashlib.sha1(password_bytes).hexdigest()
             cur.execute(f"INSERT INTO users (name, hesh_psw, key_word, lvl) VALUES ("
-                        f"'{name}', '{hesh_psw}', '{key_word}', 1)")
+                        f"'{name}', '{hesh_psw}', '{key_word}', 1, '1;', 0)")
             con.commit()
             signal_notification('Всё прошло успешно!', self.manager)
         else:
@@ -174,7 +174,7 @@ class Return_PSW:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 600))
+        self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/reg2.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
 

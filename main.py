@@ -2,9 +2,10 @@ import os
 import sys
 import pygame
 import pygame_gui
-import registration
-import rules
+from registration import Authorization
+from rules import Rule
 from choose_LVL import LVLs
+from shop import Shop
 
 
 class Main_menu:
@@ -81,12 +82,11 @@ class Main_menu:
                             f = LVLs()
                             f.choose_lvl()
                         elif event.ui_element == self.reg_bt:
-                            registration.Authorization()
+                            Authorization()
                         elif event.ui_element == self.shop_bt:
-                            pass
+                            Shop()
                         elif event.ui_element == self.rules_bt:
-                            t = rules.Rule()
-                            t.rul()
+                            Rule()
 
                 self.manager.process_events(event)
             self.manager.update(time_delta)

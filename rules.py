@@ -6,7 +6,7 @@ class Rule:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 600))
+        self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/rules.jpg')
         self.manager = pygame_gui.UIManager((800, 640))
 
@@ -16,6 +16,7 @@ class Rule:
             manager=self.manager
         )
         self.clock = pygame.time.Clock()
+        self.rul()
 
     def rul(self):
         running = True

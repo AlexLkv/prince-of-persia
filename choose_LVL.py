@@ -49,7 +49,7 @@ class LVLs():
                         elif event.ui_element == self.lvl2:
                             pass
                         elif event.ui_element == self.lvl3:
-                            play(120, 'data\levels/lvl_1.txt')
+                            play(120, 'data\levels/lvl_1.txt', 'girl')
                         elif event.ui_element == self.return_back:
                             running = False
                 self.manager.process_events(event)
