@@ -8,14 +8,6 @@ from choose_LVL import LVLs
 from conf_dealog import exit_game
 
 
-def load_image(name):
-    fullname = os.path.join('images', name)
-    if not os.path.isfile(fullname):
-        sys.exit()
-    image = pygame.image.load(fullname)
-    return image
-
-
 class Main_menu:
     def __init__(self):
         pygame.init()
@@ -42,8 +34,8 @@ class Main_menu:
             relative_rect=pygame.Rect((30, 420), (250, 50)),
             text='Правила',
             manager=self.manager)
-        self.triangle_left = load_image('treyg_left.png')
-        self.triangle_right = load_image('treyg_right.png')
+        self.triangle_left = pygame.image.load('images\_treyg_left.png')
+        self.triangle_right = pygame.image.load('images\_treyg_right.png')
         self.triangle_left = pygame.transform.scale(self.triangle_left, (25, 25))
         self.triangle_right = pygame.transform.scale(self.triangle_right, (25, 25))
         self.num_btn = ''
@@ -65,16 +57,13 @@ class Main_menu:
 
     def menu(self):
         running = True
+        time_delta = self.clock.tick(60) / 1000.0
         while running:
             self.window_surface.blit(self.background, (0, 0))
-            time_delta = self.clock.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    registration.exit_game(self.manager)
+                    exit(0)
                 if event.type == pygame.USEREVENT:
-                    if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
-                        running = False
-                        exit(0)
                     if event.user_type == pygame_gui.UI_BUTTON_ON_HOVERED:
                         # ОБРАБОТКА НАВЕДЕНИЯ НА КНОПКУ И ОТРИСОВКА ТРЕУГОЛЬНИКА
                         if event.ui_element == self.game_bt:

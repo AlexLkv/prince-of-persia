@@ -34,24 +34,14 @@ class LVLs():
         self.clock = pygame.time.Clock()
 
     def choose_lvl(self):
+        time_delta = self.clock.tick(60) / 1000.0
         running = True
         while running:
             self.window_surface.blit(self.background, (0, 0))
-            time_delta = self.clock.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    conf_dealog = pygame_gui.windows.UIConfirmationDialog(
-                        rect=pygame.Rect((250, 200), (300, 200)),
-                        manager=self.manager,
-                        window_title="Подтверждение выхода",
-                        action_long_desc="Вы уверены, что хотите выйти?",
-                        action_short_name='ОК',
-                        blocking=True)
-
+                    exit()
                 if event.type == pygame.USEREVENT:
-                    if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
-                        running = False
-                        exit()
                     self.window_surface.blit(self.background, (0, 0))
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.lvl1:
@@ -59,7 +49,7 @@ class LVLs():
                         elif event.ui_element == self.lvl2:
                             pass
                         elif event.ui_element == self.lvl3:
-                            play(10, 'data\levels/lvl_1.txt')
+                            play(120, 'data\levels/lvl_1.txt')
                         elif event.ui_element == self.return_back:
                             running = False
                 self.manager.process_events(event)

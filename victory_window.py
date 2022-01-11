@@ -16,12 +16,10 @@ class Particle(pygame.sprite.Sprite):
         super().__init__(victory_stars)
         self.image = random.choice(self.fire)
         self.rect = self.image.get_rect()
-
         # у каждой частицы своя скорость — это вектор
         self.velocity = [dx, dy]
         # и свои координаты
         self.rect.x, self.rect.y = pos
-
         # гравитация будет одинаковой (значение константы)
         self.gravity = GRAVITY
 

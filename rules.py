@@ -24,18 +24,8 @@ class Rule:
             self.window_surface.blit(self.background, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    conf_dealog = pygame_gui.windows.UIConfirmationDialog(
-                        rect=pygame.Rect((250, 200), (300, 200)),
-                        manager=self.manager,
-                        window_title="Подтверждение выхода",
-                        action_long_desc="Вы уверены, что хотите выйти?",
-                        action_short_name='ОК',
-                        blocking=True)
-
+                    exit()
                 if event.type == pygame.USEREVENT:
-                    if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
-                        running = False
-                        exit()
                     self.window_surface.blit(self.background, (0, 0))
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.return_back:

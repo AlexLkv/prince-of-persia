@@ -2,7 +2,6 @@ import pygame
 import pygame_gui
 import sqlite3
 import hashlib
-from conf_dealog import exit_game
 
 
 def signal_notification(value, manager):
@@ -73,11 +72,8 @@ class Authorization:
             time_delta = self.clock.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    exit_game(self.manager)
+                    exit(0)
                 if event.type == pygame.USEREVENT:
-                    if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
-                        running = False
-                        exit(0)
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.entrance:
                             self.login()
@@ -160,11 +156,8 @@ class Register:
             time_delta = self.clock.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    exit_game(self.manager)
+                    exit()
                 if event.type == pygame.USEREVENT:
-                    if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
-                        running = False
-                        exit(0)
                     self.window_surface.blit(self.background, (0, 0))
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.reg_btn:
@@ -237,11 +230,8 @@ class Return_PSW:
             time_delta = self.clock.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    exit_game(self.manager)
+                    exit()
                 if event.type == pygame.USEREVENT:
-                    if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
-                        running = False
-                        exit(0)
                     self.window_surface.blit(self.background, (0, 0))
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.update_psw:
