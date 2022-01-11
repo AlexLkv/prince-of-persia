@@ -5,7 +5,6 @@ import pygame_gui
 import registration
 import rules
 from choose_LVL import LVLs
-from conf_dealog import exit_game
 
 
 class Main_menu:
@@ -98,3 +97,4 @@ class Main_menu:
 
 if __name__ == '__main__':
     a = Main_menu()
+    pygame.quit()
