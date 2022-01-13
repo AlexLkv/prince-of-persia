@@ -20,6 +20,8 @@ class Authorization:
         self.background = pygame.image.load('images/reg1.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
         self.name_use_person = -1
+        self.lvl = -1
+        self.id_player = -1
         self.entrance = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((30, 280), (340, 40)),
             text='Войти',
@@ -42,7 +44,6 @@ class Authorization:
         self.psw = pygame_gui.elements.UITextEntryLine(
             relative_rect=pygame.Rect((118, 221), (250, 30)),
             manager=self.manager)
-        self.id_player = -1
         self.clock = pygame.time.Clock()
         self.authorization_func()
 
@@ -53,7 +54,7 @@ class Authorization:
         con = sqlite3.connect('users.db')
         cur = con.cursor()
         # Проверяем есть ли такой пользователь
-        value = cur.execute(f"""SELECT id, name, hesh_psw, use_person FROM users WHERE name='{name}'""").fetchall()
+        value = cur.execute(f"""SELECT id, name, hesh_psw, use_person, lvl FROM users WHERE name='{name}'""").fetchall()
         # Переводим пароль в хэш
         password_bytes = passw.encode('utf-8')
         hesh_psw = hashlib.sha1(password_bytes).hexdigest()
@@ -61,6 +62,7 @@ class Authorization:
             signal_notification('Здравствуйте, ' + name + '!', self.manager)
             self.id_player = value[0][0]
             self.name_use_person = value[0][3]
+            self.lvl = value[0][4]
         else:
             signal_notification('Неверные данные', self.manager)
         con.close()

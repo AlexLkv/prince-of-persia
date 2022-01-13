@@ -3,6 +3,7 @@ from characters import *
 import player
 import pygame
 from victory_window import victory_final
+import sqlite3
 
 size = WIDTH, HEIGHT = 800, 640
 FPS = 60
@@ -14,6 +15,7 @@ bullets = pygame.sprite.Group()
 oppon_sprites = pygame.sprite.Group()
 bullets_player = pygame.sprite.Group()
 keys = pygame.sprite.Group()
+money = pygame.sprite.Group()
 
 platforms = []  # опоры
 opponents = []
@@ -194,13 +196,16 @@ def generate_level(level):
                 key = Keys_or_Money(x, y)
                 all_sprites.add(key)
                 keys.add(key)
-
+            elif col == '$':
+                moneta = Keys_or_Money(x, y, 'money')
+                all_sprites.add(moneta)
+                money.add(moneta)
             x += PLATFORM_WIDTH
         y += PLATFORM_HEIGHT
         x = 0
 
 
-def play(play_time, card, name_use_plarformer):
+def play(play_time, card, name_use_plarformer, id_player):
     start_screen('start')
     clock = pygame.time.Clock()
     pygame.init()
@@ -217,6 +222,9 @@ def play(play_time, card, name_use_plarformer):
 
     keys_kolvo = 0
     text_kolvo_keys = font.render(str(keys_kolvo), True, (237, 60, 202))
+
+    money_kolvo = 0
+    text_kolvo_money = font.render(str(money_kolvo), True, (24, 100, 234))
 
     level = loadLevel(card)
     generate_level(level)
@@ -313,12 +321,37 @@ def play(play_time, card, name_use_plarformer):
                 key.kill()
                 keys_kolvo += 1
                 text_kolvo_keys = font.render(str(keys_kolvo), True, (234, 127, 234))
+        for moneta in money:
+            if pygame.sprite.collide_mask(moneta, play):
+                moneta.kill()
+                money_kolvo += 1
+                text_kolvo_money = font.render(str(money_kolvo), True, (24, 100, 234))
+
         pygame.draw.rect(screen, (0, 0, 0), (0, 0, 100, 60))
         screen.blit(text_kolvo_keys, (20, 20))
         screen.blit(pygame.transform.scale(Keys_or_Money.img_key, (30, 30)), (50, 20))
+
+        pygame.draw.rect(screen, (0, 0, 0), (700, 0, 100, 60))
+        screen.blit(text_kolvo_money, (720, 20))
+        screen.blit(pygame.transform.scale(Keys_or_Money.img_moneta, (30, 30)), (750, 20))
         pygame.display.update()
 
     if not play.win:
         start_screen('time')
     else:
+        con = sqlite3.connect('users.db')
+        cur = con.cursor()
+        value = cur.execute(
+                f"""SELECT kolvo_money, lvl FROM users WHERE id='{id_player}'""").fetchone()
+        lvl = 1
+        if int(value[1]) < 3 and int(value[1]) == int(card[-5]):
+            lvl = int(card[-5]) + 1
+        elif value[1] > int(card[-5]):
+            lvl = value[1]
+        cur.execute(
+            f"""UPDATE users SET kolvo_money = {int(value[0]) + money_kolvo},
+                   lvl = '{lvl}'
+                   WHERE id = '{id_player}'""")
+        con.commit()
+        con.close()
         victory_final(screen, clock)

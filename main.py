@@ -17,6 +17,7 @@ class Main_menu:
         self.manager = pygame_gui.UIManager((800, 640))
         self.id_player = -1
         self.name_use_person = -1
+        self.lvl = -1
         self.game_bt = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((30, 200), (250, 50)),
             text='Играть',
@@ -82,20 +83,21 @@ class Main_menu:
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.game_bt:
                             if self.id_player != -1:
-                                f = LVLs(self.id_player, self.name_use_person)
+                                f = LVLs(self.id_player, self.name_use_person, self.lvl)
                                 f.choose_lvl()
                             else:
-                                signal_notification('Для начала войдите в аккаунт', self.manager)
+                                signal_notification('Для начала авторизуйтесь', self.manager)
                         elif event.ui_element == self.reg_bt:
                             f = Authorization()
                             self.id_player = f.id_player
                             self.name_use_person = f.name_use_person
+                            self.lvl = f.lvl
                         elif event.ui_element == self.shop_bt:
                             if self.id_player != -1:
                                 f = Shop(self.id_player)
                                 self.name_use_person = f.name_use_person
                             else:
-                                signal_notification('Для начала войдите в аккаунт', self.manager)
+                                signal_notification('Для начала авторизуйтесь', self.manager)
                         elif event.ui_element == self.rules_bt:
                             Rule()
 
