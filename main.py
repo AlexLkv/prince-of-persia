@@ -2,7 +2,7 @@ import os
 import sys
 import pygame
 import pygame_gui
-from registration import Authorization
+from registration import Authorization, signal_notification
 from rules import Rule
 from choose_LVL import LVLs
 from shop import Shop
@@ -15,7 +15,8 @@ class Main_menu:
         self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/background.jpg')
         self.manager = pygame_gui.UIManager((800, 640))
-
+        self.id_player = -1
+        self.name_use_person = -1
         self.game_bt = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((30, 200), (250, 50)),
             text='Играть',
@@ -42,7 +43,6 @@ class Main_menu:
         self.clock = pygame.time.Clock()
         self.menu()
         ## Данные игрока
-        self.ID_PLAYER = -1
 
     def what_btn(self):
         if self.num_btn == 'game_bt':
@@ -54,6 +54,9 @@ class Main_menu:
         elif self.num_btn == 'shop_bt':
             self.window_surface.blit(self.triangle_left, (5, 370))
             self.window_surface.blit(self.triangle_right, (280, 368))
+        elif self.num_btn == 'rules_bt':
+            self.window_surface.blit(self.triangle_left, (5, 430))
+            self.window_surface.blit(self.triangle_right, (280, 428))
 
     def menu(self):
         running = True
@@ -74,17 +77,25 @@ class Main_menu:
                             self.num_btn = 'shop_bt'
                         elif event.ui_element == self.rules_bt:
                             self.num_btn = 'rules_bt'
-
                     else:
                         self.num_btn = ''
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.game_bt:
-                            f = LVLs()
-                            f.choose_lvl()
+                            if self.id_player != -1:
+                                f = LVLs(self.id_player, self.name_use_person)
+                                f.choose_lvl()
+                            else:
+                                signal_notification('Для начала войдите в аккаунт', self.manager)
                         elif event.ui_element == self.reg_bt:
-                            Authorization()
+                            f = Authorization()
+                            self.id_player = f.id_player
+                            self.name_use_person = f.name_use_person
                         elif event.ui_element == self.shop_bt:
-                            Shop()
+                            if self.id_player != -1:
+                                f = Shop(self.id_player)
+                                self.name_use_person = f.name_use_person
+                            else:
+                                signal_notification('Для начала войдите в аккаунт', self.manager)
                         elif event.ui_element == self.rules_bt:
                             Rule()
 
