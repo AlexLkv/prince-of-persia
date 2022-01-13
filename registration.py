@@ -67,8 +67,8 @@ class Authorization:
 
     def authorization_func(self):
         running = True
-        time_delta = self.clock.tick(60) / 1000.0
         while running:
+            time_delta = self.clock.tick(60) / 1000.0
             self.window_surface.blit(self.background, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -151,8 +151,8 @@ class Register:
 
     def authorization_func(self):
         running = True
-        time_delta = self.clock.tick(60) / 1000.0
         while running:
+            time_delta = self.clock.tick(60) / 1000.0
             self.window_surface.blit(self.background, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -225,8 +225,8 @@ class Return_PSW:
 
     def update_psw_func(self):
         running = True
-        time_delta = self.clock.tick(60) / 1000.0
         while running:
+            time_delta = self.clock.tick(60) / 1000.0
             self.window_surface.blit(self.background, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

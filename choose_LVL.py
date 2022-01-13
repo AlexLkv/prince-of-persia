@@ -11,9 +11,9 @@ class LVLs:
         self.background = pygame.image.load('images/background2.jpg')
         self.manager = pygame_gui.UIManager((800, 640))
         self.id_player = id_player
-        if name_use_person == '1':
+        if int(name_use_person) == 1:
             self.name_use_person = 'robot'
-        elif name_use_person == '2':
+        elif int(name_use_person) == 2:
             self.name_use_person = 'girl'
         self.return_back = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((20, 500), (150, 50)),

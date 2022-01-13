@@ -2,7 +2,6 @@ import pygame
 import blocks
 import characters
 
-
 MOVE_SPEED = 5
 COLOR = "#888888"
 JUMP_POWER = 7
@@ -27,7 +26,8 @@ class Player(pygame.sprite.Sprite):
         self.startY = y
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # На земле ли я?
-        self.image = pygame.image.load(ANIMATION_STAY[:17] + name_use_plarformer +ANIMATION_STAY[17:])
+        self.image = pygame.image.load(ANIMATION_STAY[:17] + name_use_plarformer + ANIMATION_STAY[17:])
+        self.image.set_colorkey(pygame.Color((255, 255, 255)))
         self.rect = pygame.Rect(x, y, 26, 32)
         self.num_move = 0
         self.num_move_every_other = 0
@@ -71,7 +71,7 @@ class Player(pygame.sprite.Sprite):
         elif not (left or right):  # стоим, когда нет указаний идти
             self.xvel = 0
             if not up:
-                self.image = pygame.image.load(ANIMATION_STAY[:17] + self.name_use_plarformer +ANIMATION_STAY[17:])
+                self.image = pygame.image.load(ANIMATION_STAY[:17] + self.name_use_plarformer + ANIMATION_STAY[17:])
 
         if not self.onGround:
             self.yvel += GRAVITY
@@ -83,11 +83,13 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.collide(self.xvel, 0, platforms, keys_kolvo)
 
+        self.image.set_colorkey(pygame.Color((255, 255, 255)))
+
     def collide(self, xvel, yvel, platforms, keys_kolvo):
         for platform in platforms:
             if pygame.sprite.collide_rect(self, platform):  # если есть пересечение платформы с игроком
                 if isinstance(platform, blocks.BlockDie) or isinstance(platform,
-                                                                characters.Character):  # если пересакаемый блок - blocks.BlockDie или Monster
+                                                                       characters.Character):  # если пересакаемый блок - blocks.BlockDie или Monster
                     self.die()  # умираем
                 elif isinstance(platform, blocks.BlockTeleport) and keys_kolvo == 3:
                     self.teleporting(platform.goX, platform.goY)
