@@ -191,7 +191,7 @@ def generate_level(level):
                 platforms.append(pr)
                 animatedEntities.add(pr)
             elif col == '+':
-                key = Keys(x, y)
+                key = Keys_or_Money(x, y)
                 all_sprites.add(key)
                 keys.add(key)
 
@@ -287,13 +287,11 @@ def play(play_time, card, name_use_plarformer):
 
         screen.blit(bg, (0, 0))  # отрисовка
         animatedEntities.update()  # показываем анимацию
-        characters.update(platforms)  # передвигаем всех монстров
 
+        characters.update(platforms)  # передвигаем всех монстров
         oppon_sprites.update()
         bullets.update()
-        bullets.draw(screen)
         bullets_player.update()
-
         camera.update(play)  # наводим камеру на игрока
         play.update(left, right, up, running, platforms, keys_kolvo)  # передвижение
         for sprite in all_sprites:
@@ -317,7 +315,7 @@ def play(play_time, card, name_use_plarformer):
                 text_kolvo_keys = font.render(str(keys_kolvo), True, (234, 127, 234))
         pygame.draw.rect(screen, (0, 0, 0), (0, 0, 100, 60))
         screen.blit(text_kolvo_keys, (20, 20))
-        screen.blit(pygame.transform.scale(Keys.img_key, (30, 30)), (50, 20))
+        screen.blit(pygame.transform.scale(Keys_or_Money.img_key, (30, 30)), (50, 20))
         pygame.display.update()
 
     if not play.win:

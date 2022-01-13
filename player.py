@@ -28,7 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.onGround = False  # На земле ли я?
         self.image = pygame.image.load(ANIMATION_STAY[:17] + name_use_plarformer + ANIMATION_STAY[17:])
         self.image.set_colorkey(pygame.Color((255, 255, 255)))
-        self.rect = pygame.Rect(x, y, 26, 32)
+        self.rect = pygame.Rect(x, y, 21, 29)
         self.num_move = 0
         self.num_move_every_other = 0
         self.name_use_plarformer = name_use_plarformer

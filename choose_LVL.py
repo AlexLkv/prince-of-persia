@@ -49,15 +49,14 @@ class LVLs:
                     self.window_surface.blit(self.background, (0, 0))
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.lvl1:
-                            pass
+                            play(60, 'data\levels/lvl_1.txt', self.name_use_person)
                         elif event.ui_element == self.lvl2:
                             play(120, 'data\levels/lvl_2.txt', self.name_use_person)
                         elif event.ui_element == self.lvl3:
-                            pass
+                            play(1000, 'data\levels/lvl_3.txt', self.name_use_person)
                         elif event.ui_element == self.return_back:
                             running = False
                 self.manager.process_events(event)
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
             pygame.display.update()
-
