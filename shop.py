@@ -26,6 +26,7 @@ class Shop:
             relative_rect=pygame.Rect((20, 550), (150, 50)),
             text='Вернуться назад',
             manager=self.manager)
+
         self.clock = pygame.time.Clock()
         self.buy_platformer()
 
