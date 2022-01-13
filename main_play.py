@@ -147,8 +147,8 @@ def start_screen(var):
         fon = pygame.transform.scale(pygame.image.load('data\display\_reg1.jpg'), (800, 640))
     elif var == 'time':
         fon = pygame.transform.scale(pygame.image.load('data\display\_reg2.jpg'), (800, 640))
-    screen.blit(fon, (0, 0))
     while True:
+        screen.blit(fon, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 break
