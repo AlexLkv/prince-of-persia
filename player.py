@@ -1,7 +1,7 @@
 import pygame
 import blocks
 import characters
-
+import time
 MOVE_SPEED = 5
 COLOR = "#888888"
 JUMP_POWER = 7

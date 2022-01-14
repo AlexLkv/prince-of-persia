@@ -1,6 +1,7 @@
 import pygame
 import pygame_gui
 from main_play import play
+import sqlite3
 
 
 class LVLs:
@@ -38,11 +39,13 @@ class LVLs:
             text='Уровень -3-',
             manager=self.manager
         )
+        self.a = ''
         self.clock = pygame.time.Clock()
 
     def choose_lvl(self):
         running = True
         while running:
+            self.a = ''
             time_delta = self.clock.tick(60) / 1000.0
             self.window_surface.blit(self.background, (0, 0))
             for event in pygame.event.get():
@@ -52,14 +55,21 @@ class LVLs:
                     self.window_surface.blit(self.background, (0, 0))
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.lvl1 and self.lvl >= 1:
-                            play(60, 'data\levels/lvl_1.txt', self.name_use_person, self.id_player)
+                            self.a = play(60, 'data\levels/lvl_1.txt', self.name_use_person, self.id_player)
                         elif event.ui_element == self.lvl2 and self.lvl >= 2:
-                            play(120, 'data\levels/lvl_2.txt', self.name_use_person, self.id_player)
+                            self.a = play(120, 'data\levels/lvl_2.txt', self.name_use_person, self.id_player)
                         elif event.ui_element == self.lvl3 and self.lvl == 3:
-                            play(1000, 'data\levels/lvl_3.txt', self.name_use_person, self.id_player)
+                            self.a = play(1000, 'data\levels/lvl_3.txt', self.name_use_person, self.id_player)
                         elif event.ui_element == self.return_back:
                             running = False
                 self.manager.process_events(event)
+            if self.a == 'Победа':
+                con = sqlite3.connect('users.db')
+                cur = con.cursor()
+                self.lvl = cur.execute(
+                    f"""SELECT lvl FROM users WHERE id='{self.id_player}'""").fetchone()[0]
+                con.commit()
+                con.close()
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
             pygame.display.update()

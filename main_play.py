@@ -241,8 +241,10 @@ def play(play_time, card, name_use_plarformer, id_player):
     total_level_width = len(level[0]) * PLATFORM_WIDTH
     total_level_height = len(level) * PLATFORM_HEIGHT
 
+    run = True
     camera = Camera(camera_configure, total_level_width, total_level_height)
-    while not play.win:
+    while not play.win and run:
+
         clock.tick(FPS)
         if play_time == 0:
             break
@@ -253,7 +255,9 @@ def play(play_time, card, name_use_plarformer, id_player):
                 play_time -= 1
                 text_time = font.render(str(play_time), True, (255, 255, 255))
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                run = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
                 up = True
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
                 left = True
@@ -336,22 +340,25 @@ def play(play_time, card, name_use_plarformer, id_player):
         screen.blit(pygame.transform.scale(Keys_or_Money.img_moneta, (30, 30)), (750, 20))
         pygame.display.update()
 
-    if not play.win:
-        start_screen('time')
-    else:
-        con = sqlite3.connect('users.db')
-        cur = con.cursor()
-        value = cur.execute(
-                f"""SELECT kolvo_money, lvl FROM users WHERE id='{id_player}'""").fetchone()
-        lvl = 1
-        if int(value[1]) < 3 and int(value[1]) == int(card[-5]):
-            lvl = int(card[-5]) + 1
-        elif value[1] > int(card[-5]):
-            lvl = value[1]
-        cur.execute(
-            f"""UPDATE users SET kolvo_money = {int(value[0]) + money_kolvo},
-                   lvl = '{lvl}'
-                   WHERE id = '{id_player}'""")
-        con.commit()
-        con.close()
-        victory_final(screen, clock)
+    if run:
+        if not play.win:
+            start_screen('time')
+            return 'Проигрыш'
+        else:
+            con = sqlite3.connect('users.db')
+            cur = con.cursor()
+            value = cur.execute(
+                    f"""SELECT kolvo_money, lvl FROM users WHERE id='{id_player}'""").fetchone()
+            lvl = 1
+            if int(value[1]) < 3 and int(value[1]) == int(card[-5]):
+                lvl = int(card[-5]) + 1
+            elif int(value[1]) > int(card[-5]):
+                lvl = (value[1])
+            cur.execute(
+                f"""UPDATE users SET kolvo_money = {int(value[0]) + money_kolvo},
+                       lvl = '{lvl}'
+                       WHERE id = '{id_player}'""")
+            con.commit()
+            con.close()
+            victory_final(screen, clock)
+            return 'Победа'

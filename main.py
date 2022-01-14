@@ -6,6 +6,7 @@ from registration import Authorization, signal_notification
 from rules import Rule
 from choose_LVL import LVLs
 from shop import Shop
+import sqlite3
 
 
 class Main_menu:
@@ -15,9 +16,14 @@ class Main_menu:
         self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/background.jpg')
         self.manager = pygame_gui.UIManager((800, 640))
-        self.id_player = -1
-        self.name_use_person = -1
-        self.lvl = -1
+        self.id_player = 10
+        self.name_use_person = 2
+        self.lvl = 3
+        self.name_player = 'f'
+        self.text_information = f'Неизвестный пользователь'
+        self.font = pygame.font.SysFont(None, 29)
+        self.text = self.font.render(str(self.text_information), True, (230, 9, 89))
+
         self.game_bt = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((30, 200), (250, 50)),
             text='Играть',
@@ -64,6 +70,7 @@ class Main_menu:
         time_delta = self.clock.tick(60) / 1000.0
         while running:
             self.window_surface.blit(self.background, (0, 0))
+            self.window_surface.blit(self.text, (20, 30))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit(0)
@@ -85,6 +92,10 @@ class Main_menu:
                             if self.id_player != -1:
                                 f = LVLs(self.id_player, self.name_use_person, self.lvl)
                                 f.choose_lvl()
+                                con = sqlite3.connect('users.db')
+                                cur = con.cursor()
+                                self.lvl = cur.execute(
+                                    f"""SELECT lvl FROM users WHERE id='{self.id_player}'""").fetchone()
                             else:
                                 signal_notification('Для начала авторизуйтесь', self.manager)
                         elif event.ui_element == self.reg_bt:
@@ -92,6 +103,10 @@ class Main_menu:
                             self.id_player = f.id_player
                             self.name_use_person = f.name_use_person
                             self.lvl = f.lvl
+                            self.name_player = f.name_player
+                            if self.name_player != '':
+                                self.text_information = f'Пользователь: {self.name_player}    {self.lvl} lvl '
+                                self.text = self.font.render(str(self.text_information), True, (230, 9, 89))
                         elif event.ui_element == self.shop_bt:
                             if self.id_player != -1:
                                 f = Shop(self.id_player)

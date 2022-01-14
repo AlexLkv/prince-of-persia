@@ -22,6 +22,7 @@ class Authorization:
         self.name_use_person = -1
         self.lvl = -1
         self.id_player = -1
+        self.name_player = ''
         self.entrance = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((30, 280), (340, 40)),
             text='Войти',
@@ -62,6 +63,7 @@ class Authorization:
             signal_notification('Здравствуйте, ' + name + '!', self.manager)
             self.id_player = value[0][0]
             self.name_use_person = value[0][3]
+            self.name_player = value[0][1]
             self.lvl = value[0][4]
         else:
             signal_notification('Неверные данные', self.manager)
