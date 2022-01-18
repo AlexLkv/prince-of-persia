@@ -5,14 +5,14 @@ import sqlite3
 
 
 class LVLs:
-    def __init__(self, id_player, name_use_person, lvl):
+    def __init__(self, id_player, name_use_person, lvl1):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
         self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/background2.jpg')
         self.manager = pygame_gui.UIManager((800, 640))
         self.id_player = id_player
-        self.lvl = int(lvl)
+        self.lvl = int(lvl1)
         if int(name_use_person) == 1:
             self.name_use_person = 'robot'
         elif int(name_use_person) == 2:
@@ -41,6 +41,7 @@ class LVLs:
         )
         self.a = ''
         self.clock = pygame.time.Clock()
+        self.choose_lvl()
 
     def choose_lvl(self):
         running = True

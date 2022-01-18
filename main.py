@@ -67,8 +67,8 @@ class Main_menu:
 
     def menu(self):
         running = True
-        time_delta = self.clock.tick(60) / 1000.0
         while running:
+            time_delta = self.clock.tick(60) / 1000.0
             self.window_surface.blit(self.background, (0, 0))
             self.window_surface.blit(self.text, (20, 30))
             for event in pygame.event.get():
@@ -91,11 +91,7 @@ class Main_menu:
                         if event.ui_element == self.game_bt:
                             if self.id_player != -1:
                                 f = LVLs(self.id_player, self.name_use_person, self.lvl)
-                                f.choose_lvl()
-                                con = sqlite3.connect('users.db')
-                                cur = con.cursor()
-                                self.lvl = cur.execute(
-                                    f"""SELECT lvl FROM users WHERE id='{self.id_player}'""").fetchone()
+                                self.lvl = f.lvl
                             else:
                                 signal_notification('Для начала авторизуйтесь', self.manager)
                         elif event.ui_element == self.reg_bt:
@@ -104,9 +100,6 @@ class Main_menu:
                             self.name_use_person = f.name_use_person
                             self.lvl = f.lvl
                             self.name_player = f.name_player
-                            if self.name_player != '':
-                                self.text_information = f'Пользователь: {self.name_player}    {self.lvl} lvl '
-                                self.text = self.font.render(str(self.text_information), True, (230, 9, 89))
                         elif event.ui_element == self.shop_bt:
                             if self.id_player != -1:
                                 f = Shop(self.id_player)
@@ -120,6 +113,9 @@ class Main_menu:
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
             self.what_btn()
+            if self.name_player != '':
+                self.text_information = f'Пользователь: {self.name_player}    {self.lvl} lvl '
+                self.text = self.font.render(str(self.text_information), True, (230, 9, 89))
             pygame.display.update()
 
 
