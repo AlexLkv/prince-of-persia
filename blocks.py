@@ -58,13 +58,17 @@ class Princess(Platform):
             self.image = pygame.image.load(ANIMATION_PRINCESS[self.num_move // 20 - 1])
 
 
-class Keys(pygame.sprite.Sprite):
+class Keys_or_Money(pygame.sprite.Sprite):
     img_key = pygame.image.load("data\img\key.png")
+    img_moneta = pygame.image.load("data\img\money.png")
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, mpney_or_key='key'):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
-        self.image = pygame.transform.scale(Keys.img_key, (32, 32))
+        if mpney_or_key == 'key':
+            self.image = pygame.transform.scale(Keys_or_Money.img_key, (32, 32))
+        else:
+            self.image = pygame.transform.scale(Keys_or_Money.img_moneta, (32, 32))
         self.rect = pygame.Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 
     def update(self):

@@ -2,6 +2,7 @@ import sqlite3
 import pygame
 import pygame_gui
 from registration import signal_notification
+from blocks import Keys_or_Money
 
 
 class Shop:
@@ -23,6 +24,9 @@ class Shop:
             self.buy_or_no[i] = 'куплено'
         self.buy_or_no[str(self.name_use_person)] = 'используется'
 
+        self.font = pygame.font.SysFont(None, 50)
+        self.text = self.font.render(f'{str(self.coins_user)} Монет', True, (0, 250, 0))
+        self.window_surface.blit(pygame.transform.scale(Keys_or_Money.img_moneta, (30, 30)), (250, 30))
         self.buy_platformer_num_1 = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((50, 170), (150, 50)),
             text=self.buy_or_no['1'],
@@ -49,6 +53,7 @@ class Shop:
         time_delta = self.clock.tick(60) / 1000.0
         while running:
             self.window_surface.blit(self.background, (0, 0))
+            self.window_surface.blit(self.text, (20, 30))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.updating_bd()
@@ -79,7 +84,7 @@ class Shop:
                 signal_notification('Приобретено', self.manager)
                 self.buy_or_no[name] = 'куплено'
                 self.coins_user -= kolvo_money
-
+                self.text = self.font.render(f'{str(self.coins_user)} Монет', True, (230, 9, 89))
             else:
                 signal_notification('Недостаточно монет', self.manager)
         elif self.buy_or_no[name] != 'используется':

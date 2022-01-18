@@ -6,6 +6,7 @@ from registration import Authorization, signal_notification
 from rules import Rule
 from choose_LVL import LVLs
 from shop import Shop
+import sqlite3
 
 
 class Main_menu:
@@ -17,6 +18,12 @@ class Main_menu:
         self.manager = pygame_gui.UIManager((800, 640))
         self.id_player = -1
         self.name_use_person = -1
+        self.lvl = -1
+        self.name_player = ''
+        self.text_information = f'Неизвестный пользователь'
+        self.font = pygame.font.SysFont(None, 29)
+        self.text = self.font.render(str(self.text_information), True, (230, 9, 89))
+
         self.game_bt = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((30, 200), (250, 50)),
             text='Играть',
@@ -60,9 +67,10 @@ class Main_menu:
 
     def menu(self):
         running = True
-        time_delta = self.clock.tick(60) / 1000.0
         while running:
+            time_delta = self.clock.tick(60) / 1000.0
             self.window_surface.blit(self.background, (0, 0))
+            self.window_surface.blit(self.text, (20, 30))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit(0)
@@ -82,20 +90,22 @@ class Main_menu:
                     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                         if event.ui_element == self.game_bt:
                             if self.id_player != -1:
-                                f = LVLs(self.id_player, self.name_use_person)
-                                f.choose_lvl()
+                                f = LVLs(self.id_player, self.name_use_person, self.lvl)
+                                self.lvl = f.lvl
                             else:
-                                signal_notification('Для начала войдите в аккаунт', self.manager)
+                                signal_notification('Для начала авторизуйтесь', self.manager)
                         elif event.ui_element == self.reg_bt:
                             f = Authorization()
                             self.id_player = f.id_player
                             self.name_use_person = f.name_use_person
+                            self.lvl = f.lvl
+                            self.name_player = f.name_player
                         elif event.ui_element == self.shop_bt:
                             if self.id_player != -1:
                                 f = Shop(self.id_player)
                                 self.name_use_person = f.name_use_person
                             else:
-                                signal_notification('Для начала войдите в аккаунт', self.manager)
+                                signal_notification('Для начала авторизуйтесь', self.manager)
                         elif event.ui_element == self.rules_bt:
                             Rule()
 
@@ -103,6 +113,9 @@ class Main_menu:
             self.manager.update(time_delta)
             self.manager.draw_ui(self.window_surface)
             self.what_btn()
+            if self.name_player != '':
+                self.text_information = f'Пользователь: {self.name_player}    {self.lvl} lvl '
+                self.text = self.font.render(str(self.text_information), True, (230, 9, 89))
             pygame.display.update()
 
 
