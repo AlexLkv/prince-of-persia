@@ -16,10 +16,10 @@ class Main_menu:
         self.window_surface = pygame.display.set_mode((800, 640))
         self.background = pygame.image.load('images/background.jpg')
         self.manager = pygame_gui.UIManager((800, 640))
-        self.id_player = 10
-        self.name_use_person = 2
-        self.lvl = 3
-        self.name_player = 'f'
+        self.id_player = -1
+        self.name_use_person = -1
+        self.lvl = -1
+        self.name_player = ''
         self.text_information = f'Неизвестный пользователь'
         self.font = pygame.font.SysFont(None, 29)
         self.text = self.font.render(str(self.text_information), True, (230, 9, 89))

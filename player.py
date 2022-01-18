@@ -1,32 +1,38 @@
 import pygame
 import blocks
 import characters
-import time
+
 MOVE_SPEED = 5
 COLOR = "#888888"
 JUMP_POWER = 7
 GRAVITY = 0.35  # Сила, которая будет тянуть нас вниз
-ANIMATION_DELAY = 0.1  # скорость смены кадров
-ANIMATION_SUPER_SPEED_DELAY = 0.05  # скорость смены кадров при ускорении
 
-ANIMATION_RIGHT = [f'data\platformers//r1.png', f'data\platformers//r2.png', f'data\platformers//r3.png']
-ANIMATION_LEFT = [f'data\platformers//l1.png', f'data\platformers//l2.png', f'data\platformers//l3.png']
 
-ANIMATION_JUMP_LEFT = f'data\platformers//jl.png'
-ANIMATION_JUMP_RIGHT = f'data\platformers//jr.png'
-ANIMATION_JUMP = f'data\platformers//j.png'
-ANIMATION_STAY = f'data\platformers//0.png'
+class Animate:
+    def __init__(self, name_person):
+        self.ANIMATION_RIGHT = [pygame.image.load(f'data\platformers/{name_person}/r1.png'),
+                                pygame.image.load(f'data\platformers/{name_person}/r2.png'),
+                                pygame.image.load(f'data\platformers/{name_person}/r3.png')]
+        self.ANIMATION_LEFT = [pygame.image.load(f'data\platformers/{name_person}/l1.png'),
+                               pygame.image.load(f'data\platformers/{name_person}/l2.png'),
+                               pygame.image.load(f'data\platformers/{name_person}/l3.png')]
+
+        self.ANIMATION_JUMP_LEFT = pygame.image.load(f'data\platformers/{name_person}/jl.png')
+        self.ANIMATION_JUMP_RIGHT = pygame.image.load(f'data\platformers/{name_person}/jr.png')
+        self.ANIMATION_JUMP = pygame.image.load(f'data\platformers/{name_person}/j.png')
+        self.ANIMATION_STAY =pygame.image.load(f'data\platformers/{name_person}/0.png')
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, name_use_plarformer):
+        self.amimation = Animate(name_use_plarformer)
         pygame.sprite.Sprite.__init__(self)
         self.xvel = 0  # скорость перемещения. 0 - стоять на месте
         self.startX = x  # Начальная позиция Х, пригодится когда будем переигрывать уровень
         self.startY = y
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # На земле ли я?
-        self.image = pygame.image.load(ANIMATION_STAY[:17] + name_use_plarformer + ANIMATION_STAY[17:])
+        self.image = self.amimation.ANIMATION_STAY
         self.image.set_colorkey(pygame.Color((255, 255, 255)))
         self.rect = pygame.Rect(x, y, 21, 29)
         self.num_move = 0
@@ -38,40 +44,34 @@ class Player(pygame.sprite.Sprite):
         if up:
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
                 self.yvel = -JUMP_POWER
-                self.image.fill(pygame.Color(COLOR))
-                self.image = pygame.image.load(ANIMATION_JUMP[:17] + self.name_use_plarformer +
-                                               ANIMATION_JUMP[17:])
+                self.image = self.amimation.ANIMATION_JUMP
 
         if left:
             self.xvel = -MOVE_SPEED  # Лево = x- n
             if not up:  # и не прыгаем
                 self.num_move += 1
-                if self.num_move / 4 > len(ANIMATION_LEFT) - 1:
+                if self.num_move / 5 > len(self.amimation.ANIMATION_LEFT) - 1:
                     self.num_move = 0
-                if self.num_move % 4 == 0:
-                    self.image = pygame.image.load(ANIMATION_LEFT[self.num_move // 4][:17] +
-                                                   self.name_use_plarformer + ANIMATION_LEFT[self.num_move // 4][17:])
+                if self.num_move % 5 == 0:
+                    self.image = self.amimation.ANIMATION_LEFT[self.num_move // 5]
             if up:  # если же прыгаем
-                self.image = pygame.image.load(ANIMATION_JUMP_LEFT[:17] + self.name_use_plarformer +
-                                               ANIMATION_JUMP_LEFT[17:])
+                self.image = self.amimation.ANIMATION_JUMP_LEFT
 
         elif right:
             self.xvel = MOVE_SPEED  # Право = x + n
             if not up:
                 self.num_move += 1
-                if self.num_move / 4 > len(ANIMATION_RIGHT) - 1:
+                if self.num_move / 5 > len(self.amimation.ANIMATION_RIGHT) - 1:
                     self.num_move = 0
-                if self.num_move % 4 == 0:
-                    self.image = pygame.image.load(ANIMATION_RIGHT[self.num_move // 4][:17] +
-                                                   self.name_use_plarformer + ANIMATION_RIGHT[self.num_move // 4][17:])
+                if self.num_move % 5 == 0:
+                    self.image = self.amimation.ANIMATION_RIGHT[self.num_move // 5]
             if up:
-                self.image = pygame.image.load(ANIMATION_JUMP_RIGHT[:17] + self.name_use_plarformer
-                                               + ANIMATION_JUMP_RIGHT[17:])
+                self.image = self.amimation.ANIMATION_JUMP_RIGHT
 
         elif not (left or right):  # стоим, когда нет указаний идти
             self.xvel = 0
             if not up:
-                self.image = pygame.image.load(ANIMATION_STAY[:17] + self.name_use_plarformer + ANIMATION_STAY[17:])
+                self.image = self.amimation.ANIMATION_STAY
 
         if not self.onGround:
             self.yvel += GRAVITY
