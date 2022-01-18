@@ -28,19 +28,19 @@ class Shop:
         self.text = self.font.render(f'{str(self.coins_user)} Монет', True, (0, 250, 0))
         self.window_surface.blit(pygame.transform.scale(Keys_or_Money.img_moneta, (30, 30)), (250, 30))
         self.buy_platformer_num_1 = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((50, 170), (150, 50)),
+            relative_rect=pygame.Rect((375, 170), (150, 50)),
             text=self.buy_or_no['1'],
             manager=self.manager)
         self.buy_platformer_num_2 = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((50, 250), (150, 50)),
+            relative_rect=pygame.Rect((375, 271), (150, 50)),
             text=self.buy_or_no['2'],
             manager=self.manager)
         self.buy_platformer_num_3 = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((50, 400), (150, 50)),
+            relative_rect=pygame.Rect((375, 370), (150, 50)),
             text=self.buy_or_no['3'],
             manager=self.manager)
         self.return_back = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect((20, 550), (150, 50)),
+            relative_rect=pygame.Rect((20, 543), (150, 50)),
             text='Вернуться назад',
             manager=self.manager)
         self.con = sqlite3.connect('users.db')
