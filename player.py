@@ -3,7 +3,6 @@ import blocks
 import characters
 
 MOVE_SPEED = 5
-COLOR = "#888888"
 JUMP_POWER = 7
 GRAVITY = 0.35  # Сила, которая будет тянуть нас вниз
 
@@ -20,7 +19,7 @@ class Animate:
         self.ANIMATION_JUMP_LEFT = pygame.image.load(f'data\platformers/{name_person}/jl.png')
         self.ANIMATION_JUMP_RIGHT = pygame.image.load(f'data\platformers/{name_person}/jr.png')
         self.ANIMATION_JUMP = pygame.image.load(f'data\platformers/{name_person}/j.png')
-        self.ANIMATION_STAY =pygame.image.load(f'data\platformers/{name_person}/0.png')
+        self.ANIMATION_STAY = pygame.image.load(f'data\platformers/{name_person}/0.png')
 
 
 class Player(pygame.sprite.Sprite):
@@ -37,7 +36,6 @@ class Player(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 21, 29)
         self.num_move = 0
         self.num_move_every_other = 0
-        self.name_use_plarformer = name_use_plarformer
         self.win = False
 
     def update(self, left, right, up, running, platforms, keys_kolvo):

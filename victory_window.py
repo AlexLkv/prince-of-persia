@@ -1,7 +1,7 @@
 import random
 import pygame
 
-screen_rect = (0, 0, 800, 640)
+screen_rect = (0, 0, 800, 600)
 GRAVITY = 1
 victory_stars = pygame.sprite.Group()
 

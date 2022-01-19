@@ -13,9 +13,9 @@ class Main_menu:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 640))
+        self.window_surface = pygame.display.set_mode((800, 600))
         self.background = pygame.image.load('images/background.jpg')
-        self.manager = pygame_gui.UIManager((800, 640))
+        self.manager = pygame_gui.UIManager((800, 600))
         self.id_player = -1
         self.name_use_person = -1
         self.lvl = -1

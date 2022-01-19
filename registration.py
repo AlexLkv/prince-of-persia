@@ -16,7 +16,7 @@ class Authorization:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 640))
+        self.window_surface = pygame.display.set_mode((800, 600))
         self.background = pygame.image.load('images/reg1.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
         self.name_use_person = -1
@@ -97,7 +97,7 @@ class Register:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 640))
+        self.window_surface = pygame.display.set_mode((800, 600))
         self.background = pygame.image.load('images/reg3.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
 
@@ -178,7 +178,7 @@ class Return_PSW:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 640))
+        self.window_surface = pygame.display.set_mode((800, 600))
         self.background = pygame.image.load('images/reg2.jpg')
         self.manager = pygame_gui.UIManager((800, 600))
 

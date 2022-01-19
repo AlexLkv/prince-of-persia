@@ -8,9 +8,9 @@ class LVLs:
     def __init__(self, id_player, name_use_person, lvl1):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 640))
+        self.window_surface = pygame.display.set_mode((800, 600))
         self.background = pygame.image.load('images/background2.jpg')
-        self.manager = pygame_gui.UIManager((800, 640))
+        self.manager = pygame_gui.UIManager((800, 600))
         self.id_player = id_player
         self.lvl = int(lvl1)
         if int(name_use_person) == 1:
@@ -18,7 +18,7 @@ class LVLs:
         elif int(name_use_person) == 2:
             self.name_use_person = 'girl'
         elif int(name_use_person) == 3:
-            self.name_use_person = 'mario'
+            self.name_use_person = 'marr'
         self.return_back = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((20, 500), (150, 50)),
             text='Вернуться назад',

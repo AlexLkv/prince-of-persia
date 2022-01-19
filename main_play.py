@@ -5,7 +5,7 @@ import pygame
 from victory_window import victory_final
 import sqlite3
 
-size = WIDTH, HEIGHT = 800, 640
+size = WIDTH, HEIGHT = 800, 600
 FPS = 60
 player_sprite = pygame.sprite.GroupSingle()
 all_sprites = pygame.sprite.Group()  # Все объекты
@@ -330,9 +330,9 @@ def play(play_time, card, name_use_plarformer, id_player):
         text_y = HEIGHT // 2 - text_time.get_height() // 2
         text_w = text_time.get_width()
         text_h = text_time.get_height()
-        pygame.draw.rect(screen, (0, 0, 0), (text_x - 353, text_y + 263,
+        pygame.draw.rect(screen, (0, 0, 0), (text_x - 353, text_y + 243,
                                              text_w + 20, text_h + 20))
-        screen.blit(text_time, (30, 580))  # Выставление часов
+        screen.blit(text_time, (30, 540))  # Выставление часов
 
         if pygame.sprite.spritecollide(play, bullets, False):
             play.die()

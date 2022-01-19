@@ -9,9 +9,9 @@ class Shop:
     def __init__(self, id_player):
         pygame.init()
         pygame.display.set_caption('Prince Of Voronezh')
-        self.window_surface = pygame.display.set_mode((800, 640))
+        self.window_surface = pygame.display.set_mode((800, 600))
         self.background = pygame.image.load('images/shop.jpg')
-        self.manager = pygame_gui.UIManager((800, 640))
+        self.manager = pygame_gui.UIManager((800, 600))
         self.buy_or_no = {'1': 'куплено',
                           '2': 'купить за 5 монет', '3': 'купить за 7 монет'}
         self.id_player = id_player
