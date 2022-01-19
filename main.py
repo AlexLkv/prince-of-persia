@@ -1,12 +1,9 @@
-import os
-import sys
 import pygame
 import pygame_gui
 from registration import Authorization, signal_notification
 from rules import Rule
 from choose_LVL import LVLs
 from shop import Shop
-import sqlite3
 
 
 class Main_menu:

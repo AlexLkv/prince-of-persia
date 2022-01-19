@@ -32,8 +32,8 @@ class Player(pygame.sprite.Sprite):
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # На земле ли я?
         self.image = self.amimation.ANIMATION_STAY
-        self.image.set_colorkey(pygame.Color((255, 255, 255)))
         self.rect = pygame.Rect(x, y, 21, 29)
+        self.image.set_colorkey(pygame.Color((255, 255, 255)))
         self.num_move = 0
         self.num_move_every_other = 0
         self.win = False
